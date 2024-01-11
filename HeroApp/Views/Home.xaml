@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="HeroApp.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:HeroApp.Controls"
+    xmlns:entities="clr-namespace:HeroApp.Models.Entities"
+    xmlns:vm="clr-namespace:HeroApp.ViewModels"
+    x:DataType="vm:HomeViewModel">
+    <Grid Padding="16" RowDefinitions="auto,auto,auto">
+        <Grid ColumnDefinitions="auto,auto" RowDefinitions="auto,auto">
+            <Label
+                FontAttributes="Bold"
+                FontSize="Body"
+                Text="BUSCA MARVEL"
+                TextColor="{StaticResource MarvelRed}" />
+            <BoxView
+                Grid.Row="1"
+                HeightRequest="2"
+                WidthRequest="2"
+                Color="{StaticResource MarvelRed}" />
+            <Label
+                Grid.Column="1"
+                FontSize="Body"
+                Text="TESTE FRONT-END"
+                TextColor="{StaticResource MarvelRed}" />
+        </Grid>
+        <Grid RowDefinitions="auto,auto">
+            <Label
+                Grid.Column="1"
+                FontSize="Body"
+                Text="Nome Personagem"
+                TextColor="{StaticResource MarvelRed}" />
+            <Entry Grid.Row="1" Text="{Binding SearchText}" />
+        </Grid>
+        <Grid RowDefinitions="auto,auto">
+            <HorizontalStackLayout BackgroundColor="{StaticResource MarvelRed}">
+                <Label
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="Nome" />
+            </HorizontalStackLayout>
+            <StackLayout Grid.Row="1">
+                <CollectionView ItemsSource="{Binding Heroes}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:HeroeControl HeroeName="{Binding Name}" HeroeId="{Binding Id}"  HeroeImage="{Binding Thumbnail.Path }" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+            <Grid ColumnDefinitions="auto,auto,auto" RowDefinitions="auto">
+                <Button
+                    BackgroundColor="{StaticResource MarvelRed}"
+                    Command="{Binding PreviousPageCommand}"
+                    HorizontalOptions="StartAndExpand"
+                    IsEnabled="{Binding PreviousPageEnabled}" />
+                <Grid
+                    Grid.Column="1"
+                    ColumnDefinitions="auto,auto,auto"
+                    HorizontalOptions="CenterAndExpand"
+                    RowDefinitions="auto">
+                    <Label Text="{Binding PreviousPageText}" />
+                    <Label
+                        Grid.Row="1"
+                        IsVisible="{Binding NextPageEnabled}"
+                        Text="{Binding MiddlePageText}" />
+                    <Label
+                        Grid.Row="2"
+                        IsVisible="{Binding NextPageEnabled}"
+                        Text="{Binding NextPageText}" />
+                </Grid>
+                <Button
+                    Grid.Column="2"
+                    BackgroundColor="{StaticResource MarvelRed}"
+                    Command="{Binding NextPageCommand}"
+                    HorizontalOptions="EndAndExpand"
+                    IsEnabled="{Binding NextPageEnabled}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

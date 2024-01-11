@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="heroeControl"
+             x:Class="HeroApp.Controls.HeroeControl">
+    <Grid RowDefinitions="auto,auto" BackgroundColor="{StaticResource White}">
+        <Grid RowDefinitions="auto" ColumnDefinitions="auto,auto">
+            <Image Source="{Binding HeroeModel.Thumbnail.Path,Source={Reference heroeControl}}" WidthRequest="40" HeightRequest="40" VerticalOptions="StartAndExpand">
+            </Image>
+            <Label 
+                FontSize="Body"
+                TextColor="{StaticResource Gray500}"
+                Text="{Binding HeroeModel.Name,Source={Reference heroeControl}}">
+            </Label>
+        </Grid>
+        <BoxView Color="{StaticResource MarvelRed}" WidthRequest="1" HeightRequest="1" Grid.Row="1"></BoxView>
+    </Grid>
+</StackLayout>
