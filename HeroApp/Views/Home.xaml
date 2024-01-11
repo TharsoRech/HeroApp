@@ -7,8 +7,15 @@
     xmlns:entities="clr-namespace:HeroApp.Models.Entities"
     xmlns:vm="clr-namespace:HeroApp.ViewModels"
     x:DataType="vm:HomeViewModel">
-    <Grid Padding="16" RowDefinitions="auto,auto,auto">
-        <Grid ColumnDefinitions="auto,auto" RowDefinitions="auto,auto">
+    <Grid
+        Padding="0"
+        RowDefinitions="auto,auto,auto,*,auto"
+        RowSpacing="8">
+        <Grid
+            Padding="16,12,16,16"
+            ColumnDefinitions="auto,auto"
+            RowDefinitions="auto,auto"
+            VerticalOptions="StartAndExpand">
             <Label
                 FontAttributes="Bold"
                 FontSize="Body"
@@ -16,16 +23,21 @@
                 TextColor="{StaticResource MarvelRed}" />
             <BoxView
                 Grid.Row="1"
+                Margin="0,4,0,0"
                 HeightRequest="2"
-                WidthRequest="2"
                 Color="{StaticResource MarvelRed}" />
             <Label
                 Grid.Column="1"
                 FontSize="Body"
-                Text="TESTE FRONT-END"
+                Text=" TESTE FRONT-END"
                 TextColor="{StaticResource MarvelRed}" />
         </Grid>
-        <Grid RowDefinitions="auto,auto">
+        <Grid
+            Grid.Row="1"
+            Padding="12,16,16,0"
+            IsVisible="true"
+            RowDefinitions="auto,auto"
+            VerticalOptions="StartAndExpand">
             <Label
                 Grid.Column="1"
                 FontSize="Body"
@@ -33,50 +45,161 @@
                 TextColor="{StaticResource MarvelRed}" />
             <Entry Grid.Row="1" Text="{Binding SearchText}" />
         </Grid>
-        <Grid RowDefinitions="auto,auto">
-            <HorizontalStackLayout BackgroundColor="{StaticResource MarvelRed}">
+        <Grid
+            Grid.Row="2"
+            IsVisible="{Binding HasHeroes}"
+            RowDefinitions="auto,auto"
+            VerticalOptions="Center">
+            <Grid
+                Margin="0,0,0,8"
+                Padding="8"
+                BackgroundColor="{StaticResource MarvelRed}"
+                HorizontalOptions="FillAndExpand">
                 <Label
+                    FontAttributes="Bold"
+                    FontSize="Body"
                     HorizontalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
-                    Text="Nome" />
-            </HorizontalStackLayout>
+                    Text="Nome"
+                    TextColor="{StaticResource White}" />
+            </Grid>
             <StackLayout Grid.Row="1">
                 <CollectionView ItemsSource="{Binding Heroes}">
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <controls:HeroeControl HeroeName="{Binding Name}" HeroeId="{Binding Id}"  HeroeImage="{Binding Thumbnail.Path }" />
+                        <DataTemplate x:DataType="entities:Heroe">
+                            <controls:HeroeControl
+                                HeroeId="{Binding Id}"
+                                HeroeImage="{Binding Thumbnail.Path}"
+                                HeroeName="{Binding Name}" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </StackLayout>
-            <Grid ColumnDefinitions="auto,auto,auto" RowDefinitions="auto">
-                <Button
-                    BackgroundColor="{StaticResource MarvelRed}"
-                    Command="{Binding PreviousPageCommand}"
-                    HorizontalOptions="StartAndExpand"
-                    IsEnabled="{Binding PreviousPageEnabled}" />
-                <Grid
-                    Grid.Column="1"
-                    ColumnDefinitions="auto,auto,auto"
-                    HorizontalOptions="CenterAndExpand"
-                    RowDefinitions="auto">
-                    <Label Text="{Binding PreviousPageText}" />
-                    <Label
-                        Grid.Row="1"
-                        IsVisible="{Binding NextPageEnabled}"
-                        Text="{Binding MiddlePageText}" />
-                    <Label
-                        Grid.Row="2"
-                        IsVisible="{Binding NextPageEnabled}"
-                        Text="{Binding NextPageText}" />
-                </Grid>
-                <Button
-                    Grid.Column="2"
-                    BackgroundColor="{StaticResource MarvelRed}"
-                    Command="{Binding NextPageCommand}"
-                    HorizontalOptions="EndAndExpand"
-                    IsEnabled="{Binding NextPageEnabled}" />
-            </Grid>
         </Grid>
+        <Grid
+            Grid.Row="3"
+            Padding="30,18,16,24"
+            ColumnDefinitions="*,*,*"
+            HorizontalOptions="FillAndExpand"
+            RowDefinitions="auto,auto"
+            VerticalOptions="EndAndExpand">
+            <Button
+                BackgroundColor="{StaticResource MarvelRed}"
+                Command="{Binding PreviousPageCommand}"
+                HorizontalOptions="StartAndExpand"
+                IsEnabled="{Binding PreviousPageEnabled}" />
+            <Grid
+                Grid.Column="1"
+                Margin="0,8,0,0"
+                ColumnDefinitions="*,*,*"
+                ColumnSpacing="40"
+                HorizontalOptions="CenterAndExpand"
+                RowDefinitions="auto">
+                <Frame
+                    Padding="0"
+                    BorderColor="{StaticResource MarvelRed}"
+                    CornerRadius="16"
+                    HeightRequest="28"
+                    WidthRequest="28">
+                    <Frame.Triggers>
+                        <DataTrigger
+                            Binding="{Binding PreviousPageActive}"
+                            TargetType="Frame"
+                            Value="true">
+                            <Setter Property="BackgroundColor" Value="{StaticResource MarvelRed}" />
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    <Label
+                        Margin="9,2,0,0"
+                        FontSize="Body"
+                        Text="{Binding PreviousPageText}"
+                        TextColor="{StaticResource MarvelRed}">
+                        <Label.Triggers>
+                            <DataTrigger
+                                Binding="{Binding PreviousPageActive}"
+                                TargetType="Label"
+                                Value="true">
+                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Frame>
+                <Frame
+                    Grid.Column="1"
+                    Padding="0"
+                    BorderColor="{StaticResource MarvelRed}"
+                    CornerRadius="16"
+                    HeightRequest="28"
+                    IsVisible="{Binding NextPageEnabled}"
+                    WidthRequest="28">
+                    <Frame.Triggers>
+                        <DataTrigger
+                            Binding="{Binding MiddlePageActive}"
+                            TargetType="Frame"
+                            Value="true">
+                            <Setter Property="BackgroundColor" Value="{StaticResource MarvelRed}" />
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    <Label
+                        Margin="9,2,0,0"
+                        FontSize="Body"
+                        Text="{Binding MiddlePageText}"
+                        TextColor="{StaticResource MarvelRed}">
+                        <Label.Triggers>
+                            <DataTrigger
+                                Binding="{Binding MiddlePageActive}"
+                                TargetType="Label"
+                                Value="true">
+                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Frame>
+                <Frame
+                    Grid.Column="2"
+                    Padding="0"
+                    BorderColor="{StaticResource MarvelRed}"
+                    CornerRadius="16"
+                    HeightRequest="28"
+                    IsVisible="{Binding NextPageEnabled}"
+                    WidthRequest="28">
+                    <Frame.Triggers>
+                        <DataTrigger
+                            Binding="{Binding NextPageActive}"
+                            TargetType="Frame"
+                            Value="true">
+                            <Setter Property="BackgroundColor" Value="{StaticResource MarvelRed}" />
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    <Label
+                        Margin="9,2,0,0"
+                        FontSize="Body"
+                        Text="{Binding NextPageText}"
+                        TextColor="{StaticResource MarvelRed}">
+                        <Label.Triggers>
+                            <DataTrigger
+                                Binding="{Binding NextPageActive}"
+                                TargetType="Label"
+                                Value="true">
+                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Frame>
+            </Grid>
+            <Button
+                Grid.Column="2"
+                Grid.ColumnSpan="3"
+                BackgroundColor="{StaticResource MarvelRed}"
+                Command="{Binding NextPageCommand}"
+                HorizontalOptions="EndAndExpand"
+                IsEnabled="{Binding NextPageEnabled}" />
+        </Grid>
+        <BoxView
+            Grid.Row="4"
+            HeightRequest="20"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="EndAndExpand"
+            Color="{StaticResource MarvelRed}" />
     </Grid>
 </ContentPage>

@@ -4,7 +4,7 @@ using HeroApp.Repository;
 
 namespace HeroApp.ViewModels;
 
-public partial class HomeViewModel : BaseViewModel
+public partial class HomeViewModel : ObservableObject
 {
 
     #region Properties
@@ -37,6 +37,18 @@ public partial class HomeViewModel : BaseViewModel
 
     [ObservableProperty]
     int middlePageText;
+
+    [ObservableProperty]
+    bool hasHeroes;
+
+    [ObservableProperty]
+    bool previousPageActive;
+
+    [ObservableProperty]
+    bool nextPageActive;
+
+    [ObservableProperty]
+    bool middlePageActive;
     #endregion
 
     #region Variables
@@ -45,9 +57,10 @@ public partial class HomeViewModel : BaseViewModel
     public HomeViewModel(IHeroeRepository heroeRepository)
     {
         _heroeRepository = heroeRepository;
-        _= GetHeroes();
+        _ = GetHeroes();
         OffSet = 0;
-        currentPage = 1;
+        CurrentPage = 1;
+        PreviousPageText = CurrentPage;
     }
 
     public async Task GetHeroes()
@@ -55,17 +68,21 @@ public partial class HomeViewModel : BaseViewModel
         try
         {
             var heroeList = await _heroeRepository.GetHeroes(4, OffSet, SearchText);
-            if (heroeList == null && (heroeList.Data != null && heroeList.Data.Results.Any()))
+            if (heroeList != null && (heroeList.Data != null && heroeList.Data.Results.Any()))
             {
+                HasHeroes = true;
                 Heroes = new ObservableCollection<Heroe>(heroeList.Data.Results);
-                CountPages = heroeList.Data.Total / 4;
+                CountPages = heroeList.Data.Total;
+                CurrentPage = CurrentPage == 0 ? CurrentPage + 1 : CurrentPage;
+                MiddlePageText = CurrentPage + 1;
+                PreviousPageText = CurrentPage == 1 ? CurrentPage : MiddlePageText - 1;
+                NextPageText = CurrentPage + 2;
 
-                if(CurrentPage == (CountPages - 2))
-                {
-                    PreviousPageText = CurrentPage;
-                    MiddlePageText = CurrentPage +1;
-                    NextPageText = CurrentPage + 2;
-                }
+                MiddlePageActive = CurrentPage == MiddlePageText;
+
+                PreviousPageActive = CurrentPage == PreviousPageText;
+
+                NextPageActive = CurrentPage == NextPageText;
 
                 if (CurrentPage > 1)
                     PreviousPageEnabled = true;
@@ -76,7 +93,9 @@ public partial class HomeViewModel : BaseViewModel
                     NextPageEnabled = true;
                 else
                     NextPageEnabled = false;
+                return;
             }
+            HasHeroes = false;
         }
         catch (Exception ex)
         {
