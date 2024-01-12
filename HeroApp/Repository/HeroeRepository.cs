@@ -2,7 +2,9 @@
 using Flurl.Http;
 using HeroApp.Helpers;
 using HeroApp.Models.Response;
+using RestSharp;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
 
 namespace HeroApp.Repository
 {
@@ -12,40 +14,17 @@ namespace HeroApp.Repository
         {
             try
             {
-                List<Models.Entities.Heroe> list = new List<Models.Entities.Heroe>();
-                for (int i = 0;i <4;i++)
-                {
-                    list.Add(new Models.Entities.Heroe
-                            {
-                                Id =1,
-                                Name = "Iron Man " + i,
-                                Thumbnail = new Models.Entities.Thumbnail
-                                {
-                                    Path = "https://cdn.marvel.com/content/1x/1078mob_ons_crd_01.jpg",
-                                }
-                            } );
-                }
-                return new ResultHeroResponse
-                {
+                var ts = DateTime.Now.Ticks.ToString();
+                var hash = SessionsHelper.GerarHash(ts ,Urls.ApiKeyPublic ,Urls.ApiKeyPrivate);
+                var url = string.IsNullOrEmpty(filteredName) ? $"limit={limit}&offset={offset}" : $"nameStartsWith={filteredName}&limit={limit}&offset={offset}";
 
-                    Data = new Models.Responser.DataResponse
-                    {
-                        Count = 0,
-                        Limit = limit,
-                        Offset = offset,
-                        Total = 20,
-                        Results = list
-                    }
-                };
-                var url = string.IsNullOrEmpty(filteredName) ? $"characters?limit={limit}&offset={offset}" : $"characters?nameStartsWith={filteredName}&limit={limit}&offset={offset}";
-                var response = await Urls.MarvelApiUrl
-                    .AppendPathSegment($"{url}&apikey={Urls.ApiKey}")
-                    .GetAsync();
+                var client = new RestClient(Urls.MarvelApiUrl);
+                var request = new RestRequest($"characters?{url}&ts={ts}&apikey={Urls.ApiKeyPublic}&hash={hash}");
+                var response = await client.ExecuteAsync(request);
 
-                if (response.ResponseMessage.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    var content = await response.ResponseMessage.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<ResultHeroResponse>(content);
+                    return JsonSerializer.Deserialize<ResultHeroResponse>(response.Content);
                 }
 
             }

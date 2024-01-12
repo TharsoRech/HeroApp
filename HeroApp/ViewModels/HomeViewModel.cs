@@ -74,11 +74,11 @@ public partial class HomeViewModel : ObservableObject
         try
         {
             var heroeList = await _heroeRepository.GetHeroes(4, OffSet, SearchText);
-            if (heroeList != null && (heroeList.Data != null && heroeList.Data.Results.Any()))
+            if (heroeList != null && (heroeList.data != null && heroeList.data.results.Any()))
             {
                 HasHeroes = true;
-                Heroes = new ObservableCollection<Heroe>(heroeList.Data.Results);
-                CountPages = heroeList.Data.Total / 4;
+                Heroes = new ObservableCollection<Heroe>(heroeList.data.results);
+                CountPages = heroeList.data.total / 4;
                 CurrentPage = CurrentPage == 0 ? CurrentPage + 1 : CurrentPage;
                 OrganizePagination();
                 return;

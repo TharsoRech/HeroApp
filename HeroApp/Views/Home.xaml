@@ -19,6 +19,7 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="Body"
+                FontFamily="RobotoRegular"
                 Text="BUSCA MARVEL"
                 TextColor="{StaticResource MarvelRed}" />
             <BoxView
@@ -29,6 +30,7 @@
             <Label
                 Grid.Column="1"
                 FontSize="Body"
+                FontFamily="RobotoRegular"
                 Text=" TESTE FRONT-END"
                 TextColor="{StaticResource MarvelRed}" />
         </Grid>
@@ -41,9 +43,14 @@
             <Label
                 Grid.Column="1"
                 FontSize="Body"
+                FontFamily="RobotoRegular"
                 Text="Nome Personagem"
                 TextColor="{StaticResource MarvelRed}" />
-            <Entry Grid.Row="1" Text="{Binding SearchText}" />
+            <Entry Grid.Row="1" 
+                   FontSize="16"
+                   FontFamily="RobotoRegular"
+                   Text="{Binding SearchText}"  
+                   TextChanged="inputUser_TextChanged" />
         </Grid>
         <Grid
             Grid.Row="2"
@@ -58,6 +65,7 @@
                 <Label
                     FontAttributes="Bold"
                     FontSize="Body"
+                    FontFamily="RobotoRegular"
                     HorizontalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
                     Text="Nome"
@@ -68,9 +76,9 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="entities:Heroe">
                             <controls:HeroeControl
-                                HeroeId="{Binding Id}"
-                                HeroeImage="{Binding Thumbnail.Path}"
-                                HeroeName="{Binding Name}" />
+                                HeroeId="{Binding id}"
+                                HeroeImage="{Binding thumbnail.image}"
+                                HeroeName="{Binding name}" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -117,6 +125,7 @@
                     <Label
                         Margin="9,2,0,0"
                         FontSize="Body"
+                        FontFamily="RobotoRegular"
                         Text="{Binding PreviousPageText}"
                         TextColor="{StaticResource MarvelRed}">
                         <Label.Triggers>
@@ -148,6 +157,7 @@
                     <Label
                         Margin="9,2,0,0"
                         FontSize="Body"
+                        FontFamily="RobotoRegular"
                         Text="{Binding MiddlePageText}"
                         TextColor="{StaticResource MarvelRed}">
                         <Label.Triggers>
@@ -179,6 +189,7 @@
                     <Label
                         Margin="9,2,0,0"
                         FontSize="Body"
+                        FontFamily="RobotoRegular"
                         Text="{Binding NextPageText}"
                         TextColor="{StaticResource MarvelRed}">
                         <Label.Triggers>

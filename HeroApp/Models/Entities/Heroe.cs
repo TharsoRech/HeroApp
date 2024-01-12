@@ -2,8 +2,8 @@
 {
     public class Heroe
     {
-        public int Id { get; set; }
-        public string Name {  get; set; }
-        public Thumbnail Thumbnail { get; set; }
+        public int id { get; set; }
+        public string name {  get; set; }
+        public Thumbnail thumbnail { get; set; }
     }
 }

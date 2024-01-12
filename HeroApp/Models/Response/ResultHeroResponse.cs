@@ -4,9 +4,9 @@ namespace HeroApp.Models.Response
 {
     public class ResultHeroResponse
     {
-        public int Code { get; set; }
+        public int code { get; set; }
 
-        public string Status { get; set; }
+        public string status { get; set; }
 
         public string copyright { get; set; }
 
@@ -16,7 +16,7 @@ namespace HeroApp.Models.Response
 
         public string etag { get; set; }
 
-        public DataResponse Data { get; set; }
+        public DataResponse data { get; set; }
     }
 
 }

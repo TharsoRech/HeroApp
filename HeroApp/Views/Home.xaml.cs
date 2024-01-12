@@ -2,9 +2,15 @@
 
 public partial class HomePage : ContentPage
 {
-	public HomePage(HomeViewModel viewModel)
+    HomeViewModel homeViewModel { get; set; }
+    public HomePage(HomeViewModel viewModel)
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
+		BindingContext = homeViewModel = viewModel;
 	}
+
+    void inputUser_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        homeViewModel?.FilterName();
+    }
 }

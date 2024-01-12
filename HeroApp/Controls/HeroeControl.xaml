@@ -10,14 +10,15 @@
               ColumnDefinitions="auto,auto" 
               ColumnSpacing="16">
             <Image Source="{Binding HeroeImage,Source={Reference heroeControl}}"
+                   Aspect="Fill"
                    WidthRequest="80" 
-                   HeightRequest="80" 
-                   VerticalOptions="StartAndExpand">
+                   HeightRequest="80" >
             </Image>
             <Label 
                 VerticalOptions="CenterAndExpand"
                 Grid.Column="1"
                 FontSize="Body"
+                FontFamily="RobotoLight"
                 TextColor="{StaticResource Gray900}"
                 Text="{Binding HeroeName,Source={Reference heroeControl}}">
             </Label>
