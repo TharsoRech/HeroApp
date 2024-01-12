@@ -12,7 +12,7 @@
         RowDefinitions="auto,auto,auto,*,auto"
         RowSpacing="8">
         <Grid
-            Padding="16,12,16,16"
+            Padding="16,12,16,4"
             ColumnDefinitions="auto,auto"
             RowDefinitions="auto,auto"
             VerticalOptions="StartAndExpand">
@@ -83,11 +83,16 @@
             HorizontalOptions="FillAndExpand"
             RowDefinitions="auto,auto"
             VerticalOptions="EndAndExpand">
-            <Button
-                BackgroundColor="{StaticResource MarvelRed}"
-                Command="{Binding PreviousPageCommand}"
+            <Image
+                Source="letfarrow.svg"
+                WidthRequest="28"
+                HeightRequest="28"
                 HorizontalOptions="StartAndExpand"
-                IsEnabled="{Binding PreviousPageEnabled}" />
+                IsEnabled="{Binding PreviousPageEnabledButton}"  >
+                <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding PreviousPageCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
             <Grid
                 Grid.Column="1"
                 Margin="0,8,0,0"
@@ -130,7 +135,7 @@
                     BorderColor="{StaticResource MarvelRed}"
                     CornerRadius="16"
                     HeightRequest="28"
-                    IsVisible="{Binding NextPageEnabled}"
+                    IsVisible="{Binding MiddlePageEnabled}"
                     WidthRequest="28">
                     <Frame.Triggers>
                         <DataTrigger
@@ -187,13 +192,18 @@
                     </Label>
                 </Frame>
             </Grid>
-            <Button
+            <Image
+                Source="rightarrow.svg"
                 Grid.Column="2"
+                WidthRequest="28"
+                HeightRequest="28"
                 Grid.ColumnSpan="3"
-                BackgroundColor="{StaticResource MarvelRed}"
-                Command="{Binding NextPageCommand}"
                 HorizontalOptions="EndAndExpand"
-                IsEnabled="{Binding NextPageEnabled}" />
+                IsEnabled="{Binding NextPageEnabledButton}" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NextPageCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
         </Grid>
         <BoxView
             Grid.Row="4"

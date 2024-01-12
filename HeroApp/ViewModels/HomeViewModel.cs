@@ -24,10 +24,16 @@ public partial class HomeViewModel : ObservableObject
     int offSet;
 
     [ObservableProperty]
-    bool previousPageEnabled;
+    bool previousPageEnabledButton;
+
+    [ObservableProperty]
+    bool middlePageEnabled;
 
     [ObservableProperty]
     bool nextPageEnabled;
+
+    [ObservableProperty]
+    bool nextPageEnabledButton;
 
     [ObservableProperty]
     int previousPageText;
@@ -72,27 +78,9 @@ public partial class HomeViewModel : ObservableObject
             {
                 HasHeroes = true;
                 Heroes = new ObservableCollection<Heroe>(heroeList.Data.Results);
-                CountPages = heroeList.Data.Total;
+                CountPages = heroeList.Data.Total / 4;
                 CurrentPage = CurrentPage == 0 ? CurrentPage + 1 : CurrentPage;
-                MiddlePageText = CurrentPage + 1;
-                PreviousPageText = CurrentPage == 1 ? CurrentPage : MiddlePageText - 1;
-                NextPageText = CurrentPage + 2;
-
-                MiddlePageActive = CurrentPage == MiddlePageText;
-
-                PreviousPageActive = CurrentPage == PreviousPageText;
-
-                NextPageActive = CurrentPage == NextPageText;
-
-                if (CurrentPage > 1)
-                    PreviousPageEnabled = true;
-                else
-                    PreviousPageEnabled = false;
-
-                if (CountPages > 1 && CurrentPage < CountPages)
-                    NextPageEnabled = true;
-                else
-                    NextPageEnabled = false;
+                OrganizePagination();
                 return;
             }
             HasHeroes = false;
@@ -103,6 +91,43 @@ public partial class HomeViewModel : ObservableObject
         }
 
     }
+
+    private void OrganizePagination()
+    {
+        MiddlePageText = CurrentPage + 1;
+
+        PreviousPageText = CurrentPage == 1 ? CurrentPage : MiddlePageText - 1;
+
+        NextPageText = CurrentPage + 2;
+
+        MiddlePageActive = CurrentPage == MiddlePageText;
+
+        PreviousPageActive = CurrentPage == PreviousPageText;
+
+        NextPageActive = CurrentPage == NextPageText;
+
+        if (CurrentPage > 1)
+            PreviousPageEnabledButton = true;
+        else
+            PreviousPageEnabledButton = false;
+
+        if (CountPages > 1 && CurrentPage < CountPages)
+            NextPageEnabledButton = true;
+        else
+            NextPageEnabledButton = false;
+
+        if(NextPageText > CountPages)
+            NextPageEnabled = false;
+        else
+            NextPageEnabled = true;
+
+
+        if (MiddlePageText > CountPages)
+            MiddlePageEnabled = false;
+        else
+            MiddlePageEnabled = true;
+    }
+
 
     [RelayCommand]
     public async Task NextPage()
